@@ -5,9 +5,6 @@ from wtforms.validators import DataRequired
 rolechoices = ['reader', 'writer', 'owner']
 typechoices = ['user', 'group', 'domain']
 
-class SearchUserForm(Form):
-	searchuser = StringField('searchuser', validators=[DataRequired()])
-
 class DriveSearchQueryForm(Form):
 	searchquery = StringField('searchquery', validators=[DataRequired()])
 
