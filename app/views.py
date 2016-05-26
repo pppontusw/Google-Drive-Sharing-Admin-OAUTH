@@ -377,9 +377,9 @@ def buildItems(info, shared):
 
 def makeQuery(drivesearchquery, user, token):
 	if drivesearchquery != False and token:
-		query = urllib.urlencode({'q': drivesearchquery + ' and \'' + user + '\' in owners', 'pageToken': token})
+		query = urllib.urlencode({'q': '(' + drivesearchquery + ') and \'' + user + '\' in owners', 'pageToken': token})
 	elif drivesearchquery != False and token == False:
-		query = urllib.urlencode({'q': drivesearchquery + ' and \'' + user + '\' in owners'})
+		query = urllib.urlencode({'q': '(' + drivesearchquery + ') and \'' + user + '\' in owners'})
 	elif drivesearchquery == False and token:
 		query = urllib.urlencode({'q': '\'' + user + '\' in owners', 'pageToken': token})
 	elif drivesearchquery == False and token == False:
