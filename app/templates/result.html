@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="col-md-12">
+      <div class="row">
+         <h3><a href="/user/get/{{user}}">{{user}}</a></h3>
+      </div>
+      <div id="items" class="row">
+        <div class="input-group col-md-4">
+          <span class="input-group-addon" id="basic-addon1">Search</span>
+          <input type="text" class="search form-control" placeholder="Filter" aria-describedby="basic-addon1">
+        </div>
+        <br>
+        <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+        <th>Title</th>
+        <th>ModUser</th>
+        <th>Message</th>
+        </tr>
+        </thead>
+          <tbody class="list">
+          {% if successarray %}
+            {% for item in successarray %}
+            <tr class="success">
+              <td class="title">{{item.title}}</td>
+              <td class="user">{{item.moduser}}</td>
+              <td class="message">{{item.message}}</td>
+            </tr>
+            {% endfor %}
+          {% endif %}
+          {% if failarray %}
+            {% for item in failarray %}
+              <tr class="danger">
+              <td class="title">{{item.title}}</td>
+              <td class="user">{{item.moduser}}</td>
+              <td class="message">{{item.message}}</td>
+            {% endfor %}
+          {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}

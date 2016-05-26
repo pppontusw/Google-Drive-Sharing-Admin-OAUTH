@@ -1,0 +1,44 @@
+.glyphicon-red {
+	color: red;
+}
+
+.glyphicon-xl {
+  font-size: 100px;
+}
+@media (min-width: 992px) and (min-height: 550px) {
+  .position-bottom {
+    margin-top: 225px;
+  }
+  .glyphicon-xl {
+    font-size: 150px;
+  }
+}
+
+.div-nav {
+  color: #000;
+}
+.div-nav:hover {
+  color: #555;
+  text-decoration: none;
+}
+
+a.deco-none:hover {
+    text-decoration:none;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.vertical-align {
+	min-height:100%;
+	min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.body-full {
+	height:100%;
+}

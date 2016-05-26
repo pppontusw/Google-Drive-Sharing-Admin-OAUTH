@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="row">
+        </div>
+        <div id="users" class="row">
+            <div class="input-group col-md-4">
+              <span class="input-group-addon" id="basic-addon1">Search</span>
+              <input type="text" class="search form-control" placeholder="Search for user.." aria-describedby="basic-addon1">
+            </div>
+            <br>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                {% for user in users %}
+                    <tr>
+                        <td class="name"><a href="/user/get/{{user.mail}}">{{user.name}}</a></td>
+                        <td class="mail"><a href="/user/get/{{user.mail}}">{{user.mail}}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+          	{% if error %}
+        	    <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{error}}
+        	    </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

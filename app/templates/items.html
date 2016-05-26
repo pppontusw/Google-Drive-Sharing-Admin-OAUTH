@@ -1,0 +1,89 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="row">
+           <h3><a href="/user/get/{{user}}">{{user}}</a></h3>
+        </div>
+        <div id="items" class="row">
+            <h3> Custom search </h3><p> NOTE! Strings must be escaped with single quotes. </p>{% if searchquery %}<pre>{{searchquery}}</pre>{% endif %}
+            <form class="form" action="/items/get/{{user}}?page=all" method="POST">
+            {{ drivesearchform.hidden_tag() }}
+                <div class="form-group">
+                  {{ drivesearchform.searchquery(class="form-control", placeholder="Enter custom search query")}} 
+                  </div>
+                  <div class="btn-group">
+                  <button type="submit" class="btn btn-default showrefresh">Search</button>{% if searchquery %}
+                  <a class="btn btn-default" href="/items/get/{{user}}?page=0{% if shared == True %}&shared=True{% elif shared == 'no'%}&shared=False{% endif %}">Clear search results</a>      {% endif %}
+                  </div>
+            </form>
+            <br>
+            {% if page != 'all' %}
+                <div class="btn-group" role="group" aria-label="...">
+                 <a class="btn btn-default showrefresh" href="/items/get/{{user}}?page=all"><span class="glyphicon glyphicon-list"></span> Show all on one page   </a> 
+                   <a class="btn btn-default showrefresh" href="/items/get/{{user}}?page=all&shared=True"><span class="glyphicon glyphicon-share"></span> Show all shared</a>
+                </div>
+            {% elif not previouspage and page == 'all' and not searchquery %}
+                <a class="btn btn-default" href="/items/get/{{user}}?page=0">Go back to first page</a>
+            {% endif %}
+            <br>
+            <br>
+            <p> {{items|length}} items </p>
+            {% if previouspage %}
+                <a class="" href="/items/get/{{user}}{% if shared == True %}?shared=True{% elif shared == 'no'%}?shared=False{% endif %}"><span class="glyphicon glyphicon-fast-backward"></span> First Page</a>
+                 <a class="" href="/items/get/{{user}}?page={{page-1}}{% if shared %}&shared=True{% elif shared == 'no'%}&shared=False{% endif %}"><span class="glyphicon glyphicon-step-backward"></span>Previous Page</a>
+            {% endif %}
+            {% if nextpage %}
+                <a class="pull-right" href="/items/get/{{user}}?page={{page+1}}{% if shared == True %}&shared=True{% elif shared == 'no'%}&shared=False{% endif %}">Next Page<span class="glyphicon glyphicon-step-forward"></span></a>
+            {% endif %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                    <th>Title</th>
+                    <th>Shared</th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                {% for item in items %}
+                    <tr>
+                        <td class="name"><a href="/item/get/{{user}}/{{item.id}}?title={{item.title}}">{{item.title}}</a></td>
+                        <td class="shared"><a href="/item/get/{{user}}/{{item.id}}?title={{item.title}}">{{item.shared}}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% if previouspage %}
+                <a class="" href="/items/get/{{user}}{% if shared == True %}?shared=True{% elif shared == 'no'%}?shared=False{% endif %}"><span class="glyphicon glyphicon-fast-backward"></span> First Page</a>
+                 <a class="" href="/items/get/{{user}}?page={{page-1}}{% if shared %}&shared=True{% elif shared == 'no'%}&shared=False{% endif %}"><span class="glyphicon glyphicon-step-backward"></span>Previous Page</a>
+            {% endif %}
+            {% if nextpage %}
+                <a class="pull-right" href="/items/get/{{user}}?page={{page+1}}{% if shared == True %}&shared=True{% elif shared == 'no'%}&shared=False{% endif %}">Next Page<span class="glyphicon glyphicon-step-forward"></span></a>
+            {% endif %}
+            
+            <h3> Add permissions (TO ALL FILES)</h3><br>
+            <form class="form" action="/items/insert/{{user}}" method="POST">
+                {{ driveinsertform.hidden_tag() }}
+                <div class="form-group">
+                    {{ driveinsertform.driveuser(class="form-control", id="user", placeholder="Enter user, domain or group")}} 
+                </div>
+                <div class="form-group">
+                  {{ driveinsertform.driverole(class="form-control")}} 
+                </div>
+                <div class="form-group">
+                    {{ driveinsertform.drivetype(class="form-control")}} 
+                </div>
+                <button type="submit" class="btn btn-default showrefresh">Add permission</button>       
+            </form>
+            <h3> Remove Permissions (FROM ALL FILES)</h3><br>
+        
+            <form class="form" action="/items/delete/{{user}}" method="POST">
+            {{ driveremoveform.hidden_tag() }}
+                <div class="form-group">
+                {{ driveremoveform.driveuser(class="form-control", id="user", placeholder="Enter user, domain or group")}} 
+                </div>
+                <button type="submit" class="btn btn-default showrefresh">Remove permission</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

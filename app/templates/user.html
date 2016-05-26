@@ -1,0 +1,130 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="row">
+            <h1>{{user}}</h2>
+        </div>
+        <br>
+        <div class="row">
+            <h3>Selection</h3><br>
+            <div class="btn-group">
+                <a class="btn btn-default" href="/items/get/{{user}}"><span class="glyphicon glyphicon-list"></span> All documents</a>
+                <a class="btn btn-default" href="/items/get/{{user}}?shared=True"><span class="glyphicon glyphicon-share"></span> Shared documents</a>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h3> Custom search </h3><p> NOTE! Strings must be escaped with single quotes. </p>
+            <form class="form" action="/items/get/{{user}}?page=all" method="POST">
+                {{ drivesearchform.hidden_tag() }}
+                <div class="form-group">
+                {{ drivesearchform.searchquery(class="form-control", placeholder="Enter custom search query")}} 
+                </div>
+                <button type="submit" class="btn btn-default showrefresh">Search</button>       
+            </form>
+        </div>
+        <br>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h5>Search pattern:</h5>
+                    <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                    <th>Field</th>
+                    <th>Value Type</th>
+                    <th>Operators</th>
+                    <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody class="list">
+                    <tr>
+                    <td>name</td>
+                    <td>string</td>
+                    <td>contains1, =, !=</td>
+                    <td>Name of the file.</td>
+                    </tr>
+                    <tr>
+                    <td>fullText</td>
+                    <td>string</td>
+                    <td>contains2</td>
+                    <td>Full text of the file including name, description, content, and indexable text.</td>
+                    </tr>
+                    <tr>
+                    <td>mimeType</td>
+                    <td>string</td>
+                    <td>contains, =, !=</td>
+                    <td>MIME type of the file.</td>
+                    </tr>
+                    <tr>
+                    <td>modifiedTime</td>
+                    <td>date3</td>
+                    <td><=, <, =, !=, >, >=</td>
+                    <td>Date of the last modification of the file.</td>
+                    </tr>
+                    <tr>
+                    <td>viewedByMeTime</td>
+                    <td>date3</td>
+                    <td><=, <, =, !=, >, >=</td>
+                    <td>Date that the user last viewed a file.</td>
+                    </tr>
+                    <tr>
+                    <td>trashed</td>
+                    <td>boolean</td>
+                    <td>=, !=</td>
+                    <td>Whether the file is in the trash or not.</td>
+                    </tr>
+                    <tr>
+                    <td>starred</td>
+                    <td>boolean</td>
+                    <td>=, !=</td>
+                    <td>Whether the file is starred or not.</td>
+                    </tr>
+                    <tr>
+                    <td>parents</td>
+                    <td>collection</td>
+                    <td>in</td>
+                    <td>Whether the parents collection contains the specified ID.</td>
+                    </tr>
+                    <tr>
+                    <td>owners</td>
+                    <td>collection</td>
+                    <td>in</td>
+                    <td>Users who own the file.</td>
+                    </tr>
+                    <tr>
+                    <td>writers</td>
+                    <td>collection</td>
+                    <td>in</td>
+                    <td>Users who have permission to modify the file.</td>
+                    </tr>
+                    <tr>
+                    <td>readers</td>
+                    <td>collection</td>
+                    <td>in</td>
+                    <td>Users who have permission to read the file.</td>
+                    </tr>
+                    <tr>
+                    <td>sharedWithMe</td>
+                    <td>boolean</td>
+                    <td>=, !=</td>
+                    <td>Files that have been shared with the authorized user.</td>
+                    </tr>
+                    </tbody>
+                    </table>
+                    <p>Examples:</p>
+                    <pre>trashed = false and 'samuel.thuvander@universumglobal.com' in writers
+
+'samuel.thuvander@universumglobal.com' in writers or 'samuel.thuvander@universumglobal.com' in readers
+
+'universumgroup.it' in readers
+
+'anyone' in readers or 'anyoneWithLink' in readers</pre>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

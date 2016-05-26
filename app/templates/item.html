@@ -1,0 +1,54 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="container-fluid">
+  <div class="col-md-12">
+    <div id="item" class="row">              
+      <h3> {{title}} </h3>
+        <br>
+        <table class="table table-bordered table-striped">
+        <tbody>  
+        <tr>
+        <th>Owners</th>
+        {% for permission in permissions.owners %} 
+        <td class="owners">{{permission.mail}}<a href="/item/delete/{{user}}/{{item}}?id={{permission.id}}"> <span class="glyphicon glyphicon-remove glyphicon-red"></span></a></td>
+        {% endfor %}
+        </tr> 
+        {% for permissionz in permissions.writers | batch(3) %}         
+        <tr>
+        <th>Writers</th>
+        {% for permission in permissionz %}  
+        <td class="writers">{{permission.mail}}<a href="/item/delete/{{user}}/{{item}}?id={{permission.id}}"> <span class="glyphicon glyphicon-remove glyphicon-red"></span></a></td>
+        {% endfor %}
+        </tr>
+        {% endfor %}
+        {% for permissionz in permissions.readers | batch(3) %}
+        <tr>
+        <th>Readers</th>
+        {% for permission in permissionz %}
+        <td class="readers">{{permission.mail}}<a href="/item/delete/{{user}}/{{item}}?id={{permission.id}}"> <span class="glyphicon glyphicon-remove glyphicon-red"></span></a></td>
+        {% endfor %}
+        <tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    <div class="row">
+    <h3> Add permissions </h3><br>
+    <form class="form" action="/item/insert/{{user}}/{{item}}" method="POST">
+    {{ insertform.hidden_tag() }}
+    <div class="form-group">
+      {{ insertform.driveuser(class="form-control", id="user", placeholder="Enter user, domain or group")}} 
+      </div>
+      <div class="form-group">
+      {{ insertform.driverole(class="form-control")}} 
+      </div>
+      <div class="form-group">
+        {{ insertform.drivetype(class="form-control")}} 
+      </div>
+      <button type="submit" class="btn btn-default">Add permission</button>       
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
